@@ -7,12 +7,17 @@ import (
 
 type Controller struct {
 	store storage.StorageI
-	cfg *config.Config
+	cfg   *config.Config
 }
 
 func NewController(cfg *config.Config, store storage.StorageI) *Controller {
 	return &Controller{
 		store: store,
-		cfg: cfg,
+		cfg:   cfg,
 	}
+}
+
+type Map struct {
+	Key   string
+	Value int
 }

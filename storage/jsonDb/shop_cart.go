@@ -11,17 +11,17 @@ import (
 )
 
 type shopCartRepo struct {
-	fileName string
+	FileName string
 }
 
 func NewShopCartRepo(fileName string) *shopCartRepo {
 	return &shopCartRepo{
-		fileName: fileName,
+		FileName: fileName,
 	}
 }
 
 func (s *shopCartRepo) Read() ([]models.ShopCart, error) {
-	data, err := ioutil.ReadFile(s.fileName)
+	data, err := ioutil.ReadFile(s.FileName)
 	if err != nil {
 		return []models.ShopCart{}, err
 	}
@@ -54,7 +54,7 @@ func (s *shopCartRepo) AddShopCart(req *models.Add) (string, error) {
 		return "", err
 	}
 
-	err = ioutil.WriteFile(s.fileName, body, os.ModePerm)
+	err = ioutil.WriteFile(s.FileName, body, os.ModePerm)
 	if err != nil {
 		return "", err
 	}
@@ -85,7 +85,7 @@ func (s *shopCartRepo) RemoveShopCart(req *models.Remove) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(s.fileName, body, os.ModePerm)
+	err = ioutil.WriteFile(s.FileName, body, os.ModePerm)
 	if err != nil {
 		return err
 	}
@@ -129,7 +129,7 @@ func (s *shopCartRepo) UpdateShopCart(userId string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(s.fileName, body, os.ModePerm)
+	err = ioutil.WriteFile(s.FileName, body, os.ModePerm)
 	if err != nil {
 		return err
 	}

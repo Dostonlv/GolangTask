@@ -10,12 +10,14 @@ type ShopCart struct {
 	UserId    string `json:"userID"`
 	Count     int    `json:"count"`
 	Status    bool   `json:"status"`
+	Time      string `json:"time"`
 }
 
 type Add struct {
 	ProductId string `json:"productId"`
 	UserId    string `json:"userID"`
 	Count     int    `json:"count"`
+	Time      string `json:"time"`
 }
 
 type Remove struct {
