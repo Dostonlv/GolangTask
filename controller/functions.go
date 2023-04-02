@@ -257,26 +257,74 @@ Time: %v
 }
 
 func BestSellerAllTime() {
-	p, sh, u := ReturnValue()
-
-	for _, shopcard := range sh {
-		for _, user := range u {
-			for _, prod := range p {
-
-				if shopcard.UserId == user.Id {
-					if shopcard.ProductId == prod.Id {
-
-						fmt.Printf(`---------------ShopCard-----------------------
-Client Name: %v
-Name:%v
-Price:%v
-Count:%v
-Total:%v,
-Time: %v
-`, user.Name, prod.Name, prod.Price, shopcard.Count, prod.Price*float64(shopcard.Count), shopcard.Time)
-					}
-				}
+	type nimadi struct {
+		Name  string
+		Time  string
+		Count int
+	}
+	var data []nimadi
+	var count int
+	//TopTenUnder := make(map[string]int)
+	p, sh, _ := ReturnValue()
+	var v string
+	for _, shop := range sh {
+		for _, prod := range p {
+			if shop.ProductId == prod.Id {
+				count = shop.Count
+				v = prod.Name
+				data1 := nimadi{v, shop.Time, count}
+				data = append(data, data1)
+				//fmt.Println("Name:", v, "Time: ", shop.Time, "count:", count)
 			}
 		}
+	}
+
+	counts := make(map[string]int)
+	maxCount := 0
+	result := make(map[string]nimadi)
+
+	for _, d := range data {
+		count, ok := counts[d.Name]
+		if !ok {
+			count = 0
+		}
+		counts[d.Name] = d.Count
+
+		if d.Count > maxCount {
+			maxCount = d.Count
+		}
+
+		if d.Count < count {
+			continue
+		}
+
+		if d.Count > count {
+			result[d.Name] = d
+			continue
+		}
+
+		existing, ok := result[d.Name]
+		if !ok {
+			result[d.Name] = d
+			continue
+		}
+
+		if d.Count > existing.Count {
+			result[d.Name] = d
+		}
+	}
+
+	var filtered []nimadi
+
+	for _, r := range result {
+		filtered = append(filtered, r)
+	}
+
+	for _, v := range filtered {
+		fmt.Printf(`-----------------------
+Name: %v,
+Time: %v,
+Count: %v
+`, v.Name, v.Time, v.Count)
 	}
 }
